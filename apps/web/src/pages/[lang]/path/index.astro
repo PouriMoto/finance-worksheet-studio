@@ -1,0 +1,36 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { EmojiTile, t } from '@hormat/engine';
+import { LOCALES } from '../../../config';
+import { articles, catalog, content, href } from '../../../lib/content';
+export function getStaticPaths() { return LOCALES.map((lang) => ({ params: { lang } })); }
+const { lang } = Astro.params as { lang: string };
+const items = catalog(lang);
+const arts = articles(lang);
+const paths = content().paths.map((p) => ({
+  ...p,
+  steps: p.items.map((it) => it.type === 'package'
+    ? (() => { const c = items.find((i) => i.slug === it.slug); return c ? { emoji: c.emoji, accent: c.accent, title: c.title, href: c.href, kind: t(lang, `type.${c.type}`) } : null; })()
+    : (() => { const a = arts.find((x) => x.slug === it.slug); return a ? { emoji: '📰', accent: 'sky', title: a.fm.title, href: href(lang, 'articles', a.slug), kind: t(lang, 'path.article') } : null; })()
+  ).filter(Boolean),
+})).filter((p) => p.steps.length > 0);
+---
+<Layout locale={lang} title={`${t(lang, 'path.title')} | ${t(lang, 'app.name')}`} description={t(lang, 'home.tagline')} path="path/" active="path" catalog={items}>
+  <h1 class="mb-4 text-2xl font-extrabold">{t(lang, 'path.title')}</h1>
+  {paths.map((p) => (
+    <section class="mb-8">
+      <h2 class="text-lg font-extrabold">{p.emoji} {p.title[lang]}</h2>
+      <p class="mb-4 mt-1 text-sm leading-7 text-muted">{p.description[lang]}</p>
+      <ol class="space-y-3">
+        {p.steps.map((s, i) => (
+          <li>
+            <a href={s!.href} class="flex items-center gap-3 rounded-2xl border border-line bg-surface p-4">
+              <EmojiTile emoji={s!.emoji} accent={s!.accent} size="sm" />
+              <span class="min-w-0 grow"><span class="block text-xs text-muted">{t(lang, 'path.step', { n: i + 1 })} · {s!.kind}</span><span class="block truncate font-bold">{s!.title}</span></span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
+  ))}
+</Layout>

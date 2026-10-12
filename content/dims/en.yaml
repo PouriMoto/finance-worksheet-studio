@@ -1,0 +1,15 @@
+risk_awareness:
+  label: "Risk awareness"
+  high: { meaning: "In this exercise you thought about the downside and protecting your capital first.", practice: "For each decision, write the bad scenario and check whether you could absorb it." }
+  mid: { meaning: "Sometimes you weighed the bad scenario, sometimes only the good one.", practice: "Before each choice, write one sentence: what is a reasonable worst case?" }
+  low: { meaning: "In this exercise the downside and capital protection got little attention.", practice: "Before choosing, ask: if my forecast is wrong, what do I lose?" }
+long_term_thinking:
+  label: "Long-term thinking"
+  high: { meaning: "In this exercise you gave distant consequences more weight than the immediate result.", practice: "For your next decision, write the one-month and one-year outcome of each option side by side." }
+  mid: { meaning: "Sometimes the immediate and sometimes the long-term outcome carried more weight in your choices.", practice: "Before any important choice, write one sentence: what happens a year after this decision?" }
+  low: { meaning: "In this exercise the immediate result showed up more than distant consequences.", practice: "Before choosing, write two sentences: what happens in a month? In a year?" }
+concept_mastery:
+  label: "Concept mastery"
+  high: { meaning: "In this exercise most of your scored answers were correct.", practice: "Explain one concept to someone without looking; wherever you get stuck is your next review." }
+  mid: { meaning: "About half of your scored answers were correct.", practice: "Re-read the answers you missed and write one example from your own life for each." }
+  low: { meaning: "In this exercise most scored answers were incorrect.", practice: "Do the part once more, slowly; say the concept in your own words before choosing." }

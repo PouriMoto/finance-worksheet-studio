@@ -1,0 +1,107 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import { Badge, EmojiTile, PartList, buttonVariants, cn, fmtNumber, t } from '@hormat/engine';
+import { LOCALES, SITE } from '../../../../config';
+import { catalog, packages, findPackage, resolved, href } from '../../../../lib/content';
+import { renderMarkdown } from '../../../../lib/markdown';
+
+export function getStaticPaths() {
+  return LOCALES.flatMap((lang) => resolved(lang).map((p) => ({ params: { lang, slug: p.meta.slug } })));
+}
+const { lang, slug } = Astro.params as { lang: string; slug: string };
+const pkg = findPackage(lang, slug)!;
+const items = catalog(lang);
+const item = items.find((i) => i.slug === slug)!;
+const aboutHtml = pkg.about ? renderMarkdown(pkg.about) : '';
+const firstOpen = pkg.parts.find((p) => !p.locked);
+const next = pkg.meta.next ? findPackage(lang, pkg.meta.next) : undefined;
+const related = pkg.meta.related.map((s) => findPackage(lang, s)).filter(Boolean);
+const available = LOCALES.filter((l) => packages().find((p) => p.meta.slug === slug)?.meta.locales.includes(l));
+const jsonLd = [{
+  '@context': 'https://schema.org', '@type': 'LearningResource', name: pkg.title, description: pkg.description, inLanguage: lang,
+  educationalLevel: pkg.meta.level, timeRequired: `PT${pkg.meta.minutes}M`, keywords: pkg.meta.tags.join(', '),
+  learningResourceType: pkg.meta.type === 'book' ? 'Interactive book' : 'Interactive game', url: `${SITE}/${lang}/p/${slug}/`,
+  ...(pkg.author ? { author: { '@type': 'Person', name: pkg.author.name } } : {}),
+}];
+---
+<Layout locale={lang} title={`${pkg.title} | ${t(lang, 'app.name')}`} description={pkg.description} path={`p/${slug}/`} active="archive" catalog={items} availableLocales={available} jsonLd={jsonLd}>
+  <div class="flex items-center gap-4">
+    <EmojiTile emoji={pkg.meta.emoji} accent={pkg.meta.accent} size="lg" />
+    <div>
+      <div class="flex gap-2"><Badge>{t(lang, `type.${pkg.meta.type}`)}</Badge><Badge>{t(lang, 'minutes', { n: fmtNumber(lang, pkg.meta.minutes) })}</Badge></div>
+      <h1 class="mt-2 text-2xl font-extrabold leading-9">{pkg.title}</h1>
+      {pkg.subtitle && <p class="text-muted">{pkg.subtitle}</p>}
+    </div>
+  </div>
+  <p class="mt-5 leading-8">{pkg.description}</p>
+
+  {pkg.author && (
+    <section class="mt-6 rounded-2xl border border-line bg-surface p-4">
+      <h2 class="text-sm font-bold text-muted">{t(lang, 'pkg.author')}</h2>
+      <div class="mt-1 font-bold">{pkg.author.name}</div>
+      <p class="mt-1 text-sm leading-7 text-muted">{pkg.author.bio}</p>
+    </section>
+  )}
+
+  {aboutHtml && (
+    <section class="mt-8">
+      <h2 class="mb-3 text-lg font-extrabold">{t(lang, 'pkg.about')}</h2>
+      <div class="prose-article" set:html={aboutHtml} />
+    </section>
+  )}
+
+  {pkg.gallery.length > 0 && (
+    <section class="mt-8">
+      <h2 class="mb-3 text-lg font-extrabold">{t(lang, 'pkg.gallery')}</h2>
+      <div class="-mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-2">
+        {pkg.gallery.map((g) => (
+          <figure class="w-72 shrink-0 snap-center">
+            <img src={`/media/${g.file}`} alt={g.caption ?? pkg.title} loading="lazy" class="aspect-video w-full rounded-2xl border border-line bg-surface object-cover" />
+            {g.caption && <figcaption class="mt-1 text-center text-xs text-muted">{g.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <section class="mt-8">
+    <h2 class="mb-3 text-lg font-extrabold">{t(lang, 'pkg.preview')}</h2>
+    <div class="space-y-4">
+      {pkg.parts.map((part) => (
+        <div>
+          <div class="mb-2 flex items-center gap-2 text-sm font-bold"><span aria-hidden>{part.locked ? '🔒' : part.emoji}</span>{part.title}</div>
+          <div class="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
+            {part.sceneKinds.map((k) => (
+              <div class:list={['flex h-24 w-32 shrink-0 flex-col justify-between rounded-2xl border p-3', part.locked ? 'border-dashed border-line bg-bg text-muted' : 'border-line bg-surface']}>
+                <div class="flex items-center justify-between text-xs font-bold"><span aria-hidden>{part.locked ? '🔒' : (k.emoji ?? '•')}</span><span>{t(lang, `scene.${k.type}`)}</span></div>
+                {!part.locked && k.title && <p class="line-clamp-2 text-[11px] leading-5 text-muted">{k.title}</p>}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="mb-3 text-lg font-extrabold">{t(lang, 'pkg.parts')}</h2>
+    <PartList client:load locale={lang} item={item} />
+  </section>
+
+  {next && (
+    <section class="mt-8">
+      <h2 class="mb-3 text-lg font-extrabold">{t(lang, 'pkg.next')}</h2>
+      <a href={href(lang, 'p', next.meta.slug)} class="flex items-center gap-3 rounded-2xl border border-line bg-surface p-4"><EmojiTile emoji={next.meta.emoji} accent={next.meta.accent} size="sm" /><span class="font-bold">{next.title}</span></a>
+    </section>
+  )}
+  {related.length > 0 && (
+    <section class="mt-8">
+      <h2 class="mb-3 text-lg font-extrabold">{t(lang, 'pkg.related')}</h2>
+      <ul class="space-y-2">{related.map((r) => <li><a href={href(lang, 'p', r!.meta.slug)} class="flex items-center gap-3 rounded-2xl border border-line bg-surface p-3"><EmojiTile emoji={r!.meta.emoji} accent={r!.meta.accent} size="sm" /><span class="font-semibold">{r!.title}</span></a></li>)}</ul>
+    </section>
+  )}
+  {firstOpen
+    ? <a class={cn(buttonVariants({ size: 'lg' }), 'mt-8 w-full')} href={href(lang, 'play', slug, firstOpen.id)}>{t(lang, 'btn.start')}</a>
+    : <p class="mt-8 rounded-2xl border border-dashed border-line p-4 text-center text-muted">🔒 {t(lang, 'lock.all')}</p>}
+  {pkg.parts.some((p) => p.locked) && firstOpen && <p class="mt-3 text-center text-sm text-muted">🔒 {t(lang, 'lock.coming')}</p>}
+</Layout>

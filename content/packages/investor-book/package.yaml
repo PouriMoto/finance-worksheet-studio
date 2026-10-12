@@ -1,0 +1,14 @@
+slug: investor-book
+type: book
+emoji: "📚"
+category: investing
+featured: false
+access: free
+accent: sky
+locales: [fa]
+tags: [investing, value-investing, risk]
+level: intermediate
+minutes: 24
+dims: [process_over_outcome, evidence_use, risk_awareness, long_term_thinking]
+parts: [investing-vs-speculating, inflation, margin-of-safety]
+related: [runway-game, hooked-book]

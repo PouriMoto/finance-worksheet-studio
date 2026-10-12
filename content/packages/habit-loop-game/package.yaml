@@ -1,0 +1,22 @@
+slug: habit-loop-game
+type: game
+emoji: 🔁
+category: habits
+featured: false
+access: free
+accent: rose
+locales:
+- fa
+tags:
+- habits
+- behavior
+level: beginner
+minutes: 18
+dims:
+- concept_mastery
+parts:
+- part-1
+- part-2
+- part-3
+related:
+- hooked-book

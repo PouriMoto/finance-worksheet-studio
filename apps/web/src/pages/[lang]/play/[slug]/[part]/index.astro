@@ -1,0 +1,32 @@
+---
+import Layout from '../../../../../layouts/Layout.astro';
+import { PartPlayer, t } from '@hormat/engine';
+import { LOCALES } from '../../../../../config';
+import { resolved, dimEmoji, dimTextsFor, findPackage, href } from '../../../../../lib/content';
+
+export function getStaticPaths() {
+  return LOCALES.flatMap((lang) => resolved(lang).flatMap((p) => p.parts.filter((x) => !x.locked).map((part) => ({ params: { lang, slug: p.meta.slug, part: part.id } }))));
+}
+const { lang, slug, part } = Astro.params as { lang: string; slug: string; part: string };
+const pkg = findPackage(lang, slug)!;
+const idx = pkg.parts.findIndex((p) => p.id === part);
+const nextPart = pkg.parts[idx + 1];
+const nextPkg = pkg.meta.next ? findPackage(lang, pkg.meta.next) : undefined;
+const partTitle = pkg.parts[idx].title;
+const props = {
+  locale: lang,
+  pkg: { meta: pkg.meta, title: pkg.title, author: pkg.author, rewards: pkg.rewards, parts: pkg.parts },
+  partId: part,
+  dimTexts: dimTextsFor(lang, pkg.meta.dims),
+  dimEmoji: dimEmoji(pkg.meta.dims),
+  nav: {
+    packageHref: href(lang, 'p', slug),
+    nextPartHref: nextPart ? href(lang, 'play', slug, nextPart.id) : undefined,
+    nextItemHref: nextPkg ? href(lang, 'p', nextPkg.meta.slug) : undefined,
+    nextItemTitle: nextPkg?.title,
+  },
+};
+---
+<Layout locale={lang} title={`${partTitle} | ${pkg.title}`} description={pkg.parts[idx].summary} path={`play/${slug}/${part}/`} hideNav>
+  <PartPlayer client:only="react" {...props} />
+</Layout>

@@ -1,0 +1,58 @@
+id: part-1
+emoji: 📖
+minutes: 6
+scenes:
+  - id: s1-intro
+    type: narrative
+  - id: s2-loop1
+    type: narrative
+  - id: s2b-loop1-sort
+    type: sort
+    items:
+      - i1
+      - i2
+      - i3
+    correctOrder:
+      - i3
+      - i1
+      - i2
+    dims:
+      concept_mastery: 1
+  - id: s3-loop2
+    type: narrative
+  - id: s3b-loop2-sort
+    type: sort
+    items:
+      - i1
+      - i2
+      - i3
+    correctOrder:
+      - i2
+      - i3
+      - i1
+    dims:
+      concept_mastery: 1
+  - id: s4-model
+    type: narrative
+  - id: s5-cue1
+    type: quiz
+    options:
+      - id: o1
+        correct: true
+        dims:
+          concept_mastery: 2
+      - id: o2
+        dims:
+          concept_mastery: 0
+      - id: o3
+        dims:
+          concept_mastery: 0
+      - id: o4
+        dims:
+          concept_mastery: 0
+      - id: o5
+        dims:
+          concept_mastery: 0
+  - id: report
+    type: report
+    scope: part

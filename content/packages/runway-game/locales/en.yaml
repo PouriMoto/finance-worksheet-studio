@@ -1,0 +1,72 @@
+package:
+  title: How long can you last?
+  subtitle: A short emergency-fund game
+  description: If your income stopped, how many months of essential costs would your savings cover? Play with your own numbers and get a small report on how you decide.
+  about: '## What does this game do?
+
+
+    In eight minutes you enter your savings and costs, see how many months you can last, and pick your first move when income stops.
+
+
+    ![Each block covers one month of essential costs](media:runway-game/shot-runway.svg "Runway shown as monthly blocks")
+
+
+    At the end you get a small report on how you decide.'
+  gallery:
+    runway-game/shot-runway.svg: Runway as monthly blocks
+    runway-game/shot-coin.svg: Inflation shrinks purchasing power
+parts:
+  main:
+    title: The income stopped
+    summary: Measure your runway and pick your first move.
+    scenes:
+      intro:
+        title: Imagine no income from tomorrow
+        body: 'Your pay has stopped, but rent and groceries have not.
+
+
+          The core question is simple: how many months of essential costs do your savings cover?'
+      runway:
+        prompt: Move the numbers close to your own situation and see how many months you last.
+        inputs:
+          savings:
+            label: Cash savings (million)
+          expenses:
+            label: Essential monthly costs (million)
+        explain: Runway = cash savings ÷ essential monthly costs. It is a simple estimate and ignores inflation and surprise costs.
+      first-move:
+        prompt: It is week one. What is your first move?
+        options:
+          cut-flexible:
+            label: Cut flexible spending first
+            feedback: This stretches your runway without new debt or new risk.
+          borrow-now:
+            label: Borrow right away so life stays the same
+            feedback: Borrowing can add pressure in later months; measure your costs first.
+          wait-and-see:
+            label: Wait and see what happens
+            feedback: Waiting without a plan quietly burns months of savings.
+      cut-order:
+        prompt: Order the costs from cut first to cut last.
+        items:
+          groceries: Daily groceries
+          subscriptions: Non-essential subscriptions
+          rent: Housing rent
+          dining-out: Eating out
+        explain: 'A sensible order: subscriptions and eating out first, then groceries, rent last.'
+      buffer-goal:
+        prompt: Which buffer goal do you pick for next time?
+        options:
+          m3:
+            label: 3 months of essential costs
+          m6:
+            label: 6 months of essential costs
+          m12:
+            label: 12 months of essential costs
+rewards:
+- title: New insight
+  body: Measure your emergency fund against essential costs, not against income.
+- title: New insight
+  body: Cutting one small subscription will not add a month, but it builds the habit of reviewing costs.
+- title: New insight
+  body: The right buffer depends on job stability and obligations; there is no single number for everyone.

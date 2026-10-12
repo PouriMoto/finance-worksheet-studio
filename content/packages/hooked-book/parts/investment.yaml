@@ -1,0 +1,21 @@
+id: investment
+emoji: "🧩"
+minutes: 7
+scenes:
+  - { id: invest-intro, type: narrative, emoji: "🧩" }
+  - id: which-investment
+    type: quiz
+    emoji: "🧐"
+    options:
+      - { id: a, correct: true, dims: { user_need_focus: 1 } }
+      - { id: b }
+      - { id: c }
+  - id: sticky-design
+    type: choice
+    emoji: "🪤"
+    options:
+      - { id: a, dims: { ethical_design: 0, long_term_thinking: 0 } }
+      - { id: b, dims: { ethical_design: 2, long_term_thinking: 1 } }
+      - { id: c, dims: { ethical_design: 0, long_term_thinking: 0 } }
+  - { id: goal, type: reflect, emoji: "🎯", mode: text, saveAs: goal }
+  - { id: report, type: report, scope: package }

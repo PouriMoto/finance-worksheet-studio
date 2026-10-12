@@ -1,0 +1,4 @@
+- { id: money, emoji: "💰", label: { fa: "پول و پس‌انداز", en: "Money & saving" } }
+- { id: investing, emoji: "📈", label: { fa: "سرمایه‌گذاری", en: "Investing" } }
+- { id: habits, emoji: "🔁", label: { fa: "عادت و رفتار", en: "Habits & behavior" } }
+- { id: general, emoji: "✨", label: { fa: "عمومی", en: "General" } }

@@ -1,0 +1,12 @@
+{
+  "name": "@hormat/content",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./schema": "./src/schema.ts",
+    "./node": "./src/node.ts",
+    "./economy": "./src/economy.ts"
+  },
+  "dependencies": { "yaml": "^2.8.0", "zod": "^4.0.0" }
+}

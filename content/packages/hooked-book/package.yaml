@@ -1,0 +1,29 @@
+slug: hooked-book
+type: book
+emoji: 🪝
+category: habits
+featured: true
+access: free
+accent: violet
+locales:
+- fa
+tags:
+- behavior
+- product-design
+- habits
+level: beginner
+minutes: 30
+dims:
+- user_need_focus
+- friction_awareness
+- ethical_design
+- long_term_thinking
+parts:
+- habit-zone
+- trigger-action
+- variable-reward
+- investment
+next: investor-book
+related:
+- runway-game
+- habit-loop-game

@@ -1,0 +1,89 @@
+id: part-2
+emoji: 📖
+minutes: 6
+scenes:
+  - id: s5-cue2
+    type: quiz
+    options:
+      - id: o1
+        dims:
+          concept_mastery: 0
+      - id: o2
+        correct: true
+        dims:
+          concept_mastery: 2
+      - id: o3
+        dims:
+          concept_mastery: 0
+      - id: o4
+        dims:
+          concept_mastery: 0
+      - id: o5
+        dims:
+          concept_mastery: 0
+  - id: s5-cue3
+    type: quiz
+    options:
+      - id: o1
+        dims:
+          concept_mastery: 0
+      - id: o2
+        dims:
+          concept_mastery: 0
+      - id: o3
+        correct: true
+        dims:
+          concept_mastery: 2
+      - id: o4
+        dims:
+          concept_mastery: 0
+      - id: o5
+        dims:
+          concept_mastery: 0
+  - id: s5-cue4
+    type: quiz
+    options:
+      - id: o1
+        dims:
+          concept_mastery: 0
+      - id: o2
+        dims:
+          concept_mastery: 0
+      - id: o3
+        dims:
+          concept_mastery: 0
+      - id: o4
+        correct: true
+        dims:
+          concept_mastery: 2
+      - id: o5
+        dims:
+          concept_mastery: 0
+  - id: s5-cue5
+    type: quiz
+    options:
+      - id: o1
+        dims:
+          concept_mastery: 0
+      - id: o2
+        dims:
+          concept_mastery: 0
+      - id: o3
+        dims:
+          concept_mastery: 0
+      - id: o4
+        dims:
+          concept_mastery: 0
+      - id: o5
+        correct: true
+        dims:
+          concept_mastery: 2
+  - id: s6-battery
+    type: narrative
+  - id: s7-curve
+    type: narrative
+  - id: s8-wait
+    type: narrative
+  - id: report
+    type: report
+    scope: part

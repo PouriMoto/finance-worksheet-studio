@@ -1,0 +1,14 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { ProfileView, featuresFor, t } from '@hormat/engine';
+import { EDITION, LOCALES } from '../../../config';
+import { catalog } from '../../../lib/content';
+export function getStaticPaths() { return LOCALES.map((lang) => ({ params: { lang } })); }
+const { lang } = Astro.params as { lang: string };
+const items = catalog(lang);
+const features = featuresFor(EDITION);
+---
+<Layout locale={lang} title={`${t(lang, 'me.title')} | ${t(lang, 'app.name')}`} description={t(lang, 'me.local_note')} path="me/" active="me" catalog={items}>
+  <h1 class="mb-4 text-2xl font-extrabold">{t(lang, 'me.title')}</h1>
+  <ProfileView client:only="react" locale={lang} catalog={items} features={features} />
+</Layout>

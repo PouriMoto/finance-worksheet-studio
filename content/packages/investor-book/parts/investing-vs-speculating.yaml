@@ -1,0 +1,27 @@
+id: investing-vs-speculating
+emoji: "⚖️"
+minutes: 8
+scenes:
+  - { id: author, type: narrative, emoji: "🎓" }
+  - id: two-people
+    type: choice
+    emoji: "👥"
+    options:
+      - { id: a, dims: { process_over_outcome: 0, evidence_use: 0 } }
+      - { id: b, dims: { process_over_outcome: 2, evidence_use: 2 } }
+      - { id: c, dims: { process_over_outcome: 0, evidence_use: 0 } }
+  - id: definition
+    type: quiz
+    emoji: "📖"
+    options:
+      - { id: a }
+      - { id: b }
+      - { id: c, correct: true, dims: { evidence_use: 1 } }
+  - id: before-buy
+    type: choice
+    emoji: "🛒"
+    options:
+      - { id: a, dims: { evidence_use: 0, risk_awareness: 0 } }
+      - { id: b, dims: { evidence_use: 1, risk_awareness: 2 } }
+      - { id: c, dims: { evidence_use: 0, risk_awareness: 0 } }
+  - { id: report, type: report, scope: part }

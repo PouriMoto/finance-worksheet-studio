@@ -1,0 +1,40 @@
+id: margin-of-safety
+emoji: "🛡️"
+minutes: 8
+scenes:
+  - { id: idea, type: narrative, emoji: "🛡️" }
+  - id: margin-sim
+    type: sim
+    emoji: "📊"
+    model: margin-of-safety
+    inputs:
+      - { id: value, min: 20, max: 200, step: 5, default: 100, unit: none }
+      - { id: price, min: 10, max: 250, step: 5, default: 70, unit: none }
+  - id: room-for-error
+    type: quiz
+    emoji: "🧮"
+    options:
+      - { id: a }
+      - { id: b, correct: true, dims: { evidence_use: 2 } }
+      - { id: c }
+  - id: cheap-but-weak
+    type: choice
+    emoji: "🏚️"
+    options:
+      - { id: a, dims: { evidence_use: 0, risk_awareness: 0 } }
+      - { id: b, dims: { evidence_use: 2, risk_awareness: 2 } }
+      - { id: c, dims: { evidence_use: 0, risk_awareness: 1 } }
+  - id: rebalance-sim
+    type: sim
+    emoji: "⚖️"
+    model: rebalance
+    inputs:
+      - { id: growth, min: -50, max: 100, step: 5, default: 40, unit: percent }
+  - id: rebalance-choice
+    type: choice
+    emoji: "🔄"
+    options:
+      - { id: a, dims: { process_over_outcome: 0, long_term_thinking: 0 } }
+      - { id: b, dims: { process_over_outcome: 2, long_term_thinking: 2 } }
+      - { id: c, dims: { process_over_outcome: 0, long_term_thinking: 0 } }
+  - { id: report, type: report, scope: package }

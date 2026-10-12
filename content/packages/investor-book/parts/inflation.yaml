@@ -1,0 +1,28 @@
+id: inflation
+emoji: "💸"
+minutes: 8
+scenes:
+  - { id: nominal-real, type: narrative, emoji: "💸" }
+  - id: coin-sim
+    type: sim
+    emoji: "🪙"
+    model: purchasing-power
+    inputs:
+      - { id: amount, min: 10, max: 500, step: 10, default: 100, unit: million }
+      - { id: inflation, min: 0, max: 60, step: 1, default: 30, unit: percent }
+      - { id: years, min: 1, max: 10, step: 1, default: 5, unit: year }
+  - id: gold-real-return
+    type: quiz
+    emoji: "🥇"
+    options:
+      - { id: a }
+      - { id: b }
+      - { id: c, correct: true, dims: { evidence_use: 2 } }
+  - id: better-question
+    type: choice
+    emoji: "❓"
+    options:
+      - { id: a, dims: { long_term_thinking: 0, risk_awareness: 0 } }
+      - { id: b, dims: { long_term_thinking: 2, risk_awareness: 1 } }
+      - { id: c, dims: { long_term_thinking: 0, risk_awareness: 0 } }
+  - { id: report, type: report, scope: part }

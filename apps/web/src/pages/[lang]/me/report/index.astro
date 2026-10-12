@@ -1,0 +1,29 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import { ReportSheet, t } from '@hormat/engine';
+import type { ScoringIndex } from '@hormat/engine';
+import arabicFont from '@fontsource-variable/vazirmatn/files/vazirmatn-arabic-wght-normal.woff2?url';
+import latinFont from '@fontsource-variable/vazirmatn/files/vazirmatn-latin-wght-normal.woff2?url';
+import { LOCALES } from '../../../../config';
+import { catalog, content, resolved } from '../../../../lib/content';
+
+export function getStaticPaths() { return LOCALES.map((lang) => ({ params: { lang } })); }
+const { lang } = Astro.params as { lang: string };
+const items = catalog(lang);
+// Scoring weights only: no scene text, so gated content is never embedded in this page.
+const scoring: ScoringIndex = Object.fromEntries(resolved(lang).map((p) => [p.meta.slug, {
+  dims: p.meta.dims,
+  parts: p.parts.map((pt) => ({
+    id: pt.id,
+    scenes: pt.scenes.filter((s) => s.type === 'choice' || s.type === 'quiz' || s.type === 'sort').map((s) => ({
+      id: s.id, type: s.type,
+      ...(s.type === 'sort' ? { dims: s.dims } : s.type === 'report' ? {} : { options: (s as { options: { id: string; dims?: Record<string, number> }[] }).options.map((o) => ({ id: o.id, dims: o.dims })) }),
+    })),
+  })),
+}]));
+const dimTexts = content().dimTexts[lang] ?? {};
+const dimEmoji = Object.fromEntries(content().dims.map((d) => [d.id, d.emoji]));
+---
+<Layout locale={lang} title={`${t(lang, 'report.sheet_title')} | ${t(lang, 'app.name')}`} description={t(lang, 'me.local_note')} path="me/report/" active="me" catalog={items}>
+  <ReportSheet client:only="react" locale={lang} catalog={items} scoring={scoring} dimTexts={dimTexts} dimEmoji={dimEmoji} fontUrls={{ arabic: arabicFont, latin: latinFont }} />
+</Layout>

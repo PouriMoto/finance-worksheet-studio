@@ -1,0 +1,13 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { t } from '@hormat/engine';
+import { LOCALES } from '../../../config';
+import { articles, catalog, href } from '../../../lib/content';
+export function getStaticPaths() { return LOCALES.map((lang) => ({ params: { lang } })); }
+const { lang } = Astro.params as { lang: string };
+const list = articles(lang);
+---
+<Layout locale={lang} title={`${t(lang, 'articles.title')} | ${t(lang, 'app.name')}`} description={t(lang, 'home.tagline')} path="articles/" catalog={catalog(lang)}>
+  <h1 class="mb-4 text-2xl font-extrabold">{t(lang, 'articles.title')}</h1>
+  <ul class="space-y-3">{list.map((a) => <li><a href={href(lang, 'articles', a.slug)} class="block rounded-2xl border border-line bg-surface p-4"><div class="font-bold">{a.fm.title}</div><p class="mt-1 text-sm leading-7 text-muted">{a.fm.description}</p></a></li>)}</ul>
+</Layout>

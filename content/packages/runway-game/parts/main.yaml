@@ -1,0 +1,22 @@
+id: main
+emoji: "🛟"
+minutes: 8
+scenes:
+  - { id: intro, type: narrative, emoji: "🌧️" }
+  - id: runway
+    type: sim
+    emoji: "📏"
+    model: runway
+    inputs:
+      - { id: savings, min: 10, max: 300, step: 5, default: 75, unit: million }
+      - { id: expenses, min: 5, max: 80, step: 1, default: 25, unit: million }
+  - id: first-move
+    type: choice
+    emoji: "🚨"
+    options:
+      - { id: cut-flexible, dims: { risk_awareness: 2, long_term_thinking: 1 } }
+      - { id: borrow-now, dims: { risk_awareness: 0, long_term_thinking: 0 } }
+      - { id: wait-and-see, dims: { risk_awareness: 0, long_term_thinking: 0 } }
+  - { id: cut-order, type: sort, emoji: "✂️", items: [groceries, subscriptions, rent, dining-out], correctOrder: [subscriptions, dining-out, groceries, rent], dims: { risk_awareness: 1 } }
+  - { id: buffer-goal, type: reflect, emoji: "🎯", mode: pick, options: [m3, m6, m12], saveAs: goal }
+  - { id: report, type: report, scope: package }

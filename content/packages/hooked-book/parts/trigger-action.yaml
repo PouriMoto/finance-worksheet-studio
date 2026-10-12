@@ -1,0 +1,35 @@
+id: trigger-action
+emoji: "🔔"
+minutes: 9
+scenes:
+  - { id: two-triggers, type: narrative, emoji: "🔔" }
+  - id: which-internal
+    type: quiz
+    emoji: "💭"
+    options:
+      - { id: a }
+      - { id: b, correct: true, dims: { user_need_focus: 2 } }
+      - { id: c }
+  - id: reels-idea
+    type: choice
+    emoji: "🎬"
+    options:
+      - { id: a, dims: { user_need_focus: 0 } }
+      - { id: b, dims: { user_need_focus: 2 } }
+      - { id: c, dims: { user_need_focus: 0 } }
+  - { id: fogg, type: narrative, emoji: "🧮" }
+  - id: friction-fix
+    type: choice
+    emoji: "🧗"
+    options:
+      - { id: a, dims: { friction_awareness: 0 } }
+      - { id: b, dims: { friction_awareness: 2 } }
+      - { id: c, dims: { friction_awareness: 1 } }
+  - id: first-step
+    type: quiz
+    emoji: "👣"
+    options:
+      - { id: a }
+      - { id: b, correct: true, dims: { friction_awareness: 2 } }
+      - { id: c }
+  - { id: report, type: report, scope: part }

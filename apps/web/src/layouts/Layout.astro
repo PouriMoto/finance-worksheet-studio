@@ -1,0 +1,93 @@
+---
+import '@fontsource-variable/vazirmatn';
+import '../styles/global.css';
+import { StreakChip, NotifBell, dirOf, featuresFor, t } from '@hormat/engine';
+import type { CatalogItem } from '@hormat/engine';
+import { EDITION, LOCALES, SITE } from '../config';
+
+interface Props {
+  locale: string;
+  title: string;
+  description: string;
+  path: string; // path after the locale, e.g. "archive/" or ""
+  active?: 'home' | 'archive' | 'path' | 'me';
+  catalog?: CatalogItem[];
+  availableLocales?: string[];
+  jsonLd?: object[];
+  hideNav?: boolean;
+}
+const { locale, title, description, path, active, catalog = [], availableLocales = [...LOCALES], jsonLd = [], hideNav = false } = Astro.props;
+const dir = dirOf(locale);
+const features = featuresFor(EDITION);
+const other = LOCALES.find((l) => l !== locale && availableLocales.includes(l));
+const canonical = `${SITE}/${locale}/${path}`;
+const nav = [
+  { key: 'home', emoji: '🏠', href: `/${locale}/` },
+  { key: 'archive', emoji: '📚', href: `/${locale}/archive/` },
+  { key: 'path', emoji: '🧭', href: `/${locale}/path/` },
+  { key: 'me', emoji: '👤', href: `/${locale}/me/` },
+] as const;
+---
+<!doctype html>
+<html lang={locale} dir={dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0F766E" />
+    <link rel="canonical" href={canonical} />
+    {availableLocales.map((l) => <link rel="alternate" hreflang={l} href={`${SITE}/${l}/${path}`} />)}
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={locale} />
+    {jsonLd.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
+    <script is:inline>
+      (function () {
+        var s = localStorage.getItem('fcity.theme');
+        var d = s ? s === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', d ? 'dark' : 'light');
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="print:hidden sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur">
+      <div class="mx-auto flex h-14 max-w-2xl items-center gap-2 px-4">
+        <a href={`/${locale}/`} class="flex grow items-center gap-2 font-extrabold"><span aria-hidden>🧠</span>{t(locale, 'app.name')}</a>
+        <StreakChip client:only="react" locale={locale} />
+        <NotifBell client:only="react" locale={locale} catalog={catalog} features={features} />
+        <button id="theme-toggle" type="button" aria-label={t(locale, 'theme.toggle')} class="flex size-10 items-center justify-center rounded-full hover:bg-brand-soft"><span aria-hidden>🌓</span></button>
+        {other && <a href={`/${other}/${path}`} class="rounded-full px-3 py-1.5 text-sm font-semibold hover:bg-brand-soft" hreflang={other}>{t(locale, 'lang.other')}</a>}
+      </div>
+    </header>
+    <main class="mx-auto max-w-2xl px-4 pb-28 pt-5">
+      <slot />
+      <p class="mt-10 text-center text-xs text-muted print:hidden">{t(locale, 'footer.note')}</p>
+    </main>
+    {!hideNav && (
+      <nav class="print:hidden fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur" aria-label="Primary">
+        <ul class="mx-auto grid max-w-2xl grid-cols-4">
+          {nav.map((n) => (
+            <li>
+              <a href={n.href} aria-current={active === n.key ? 'page' : undefined} class:list={['flex flex-col items-center gap-0.5 py-2 text-xs font-semibold', active === n.key ? 'text-brand' : 'text-muted']}>
+                <span class="text-xl" aria-hidden>{n.emoji}</span>{t(locale, `nav.${n.key}`)}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+    <script is:inline>
+      document.getElementById('theme-toggle').addEventListener('click', function () {
+        var r = document.documentElement;
+        var next = r.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        r.setAttribute('data-theme', next);
+        localStorage.setItem('fcity.theme', next);
+      });
+      if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('/sw.js');
+    </script>
+  </body>
+</html>

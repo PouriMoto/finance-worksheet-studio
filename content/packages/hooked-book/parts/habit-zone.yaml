@@ -1,0 +1,22 @@
+id: habit-zone
+emoji: "🪝"
+minutes: 7
+scenes:
+  - { id: author, type: narrative, emoji: "✍️" }
+  - id: product-types
+    type: quiz
+    emoji: "🧐"
+    options:
+      - { id: a }
+      - { id: b, correct: true, dims: { user_need_focus: 2 } }
+      - { id: c }
+  - id: measure-product
+    type: choice
+    emoji: "📐"
+    options:
+      - { id: a, dims: { user_need_focus: 0 } }
+      - { id: b, dims: { user_need_focus: 2, long_term_thinking: 1 } }
+      - { id: c, dims: { user_need_focus: 0 } }
+  - { id: hook-order, type: sort, emoji: "🔁", items: [trigger, action, reward, investment], correctOrder: [trigger, action, reward, investment] }
+  - { id: one-sentence, type: reflect, emoji: "📝", mode: text, saveAs: note }
+  - { id: report, type: report, scope: part }

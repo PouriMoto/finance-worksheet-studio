@@ -1,0 +1,21 @@
+id: smart-decisions
+emoji: 🧭
+title:
+  fa: مسیر تصمیم‌گیری هوشمندانه
+  en: The smart decisions path
+description:
+  fa: از یک بازی کوتاه درباره‌ی ذخیره‌ی اضطراری شروع کن، سراغ دو کتاب تعاملی برو و
+    با یک مقاله‌ی کاربردی جمع‌بندی کن.
+  en: Start with a short emergency-fund game, continue with interactive books, and
+    finish with a practical article.
+items:
+- type: package
+  slug: runway-game
+- type: package
+  slug: hooked-book
+- type: package
+  slug: habit-loop-game
+- type: package
+  slug: investor-book
+- type: article
+  slug: runway-months

@@ -1,0 +1,41 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { ContinueCard, HomeGrid, t } from '@hormat/engine';
+import { LOCALES } from '../../config';
+import { catalog, categoriesFor, content, articles, href } from '../../lib/content';
+
+export function getStaticPaths() {
+  return LOCALES.map((lang) => ({ params: { lang } }));
+}
+const { lang } = Astro.params as { lang: string };
+const items = catalog(lang);
+const categories = categoriesFor(lang, items);
+const path = content().paths[0];
+const pathItems = (path?.items ?? []).map((it) => (it.type === 'package' ? items.find((i) => i.slug === it.slug) : null)).filter(Boolean);
+const arts = articles(lang);
+---
+<Layout locale={lang} title={t(lang, 'app.name')} description={t(lang, 'home.tagline')} path="" active="home" catalog={items}>
+  <h1 class="mb-5 text-2xl font-extrabold leading-10">{t(lang, 'home.tagline')}</h1>
+  {items.length > 0 && <ContinueCard client:only="react" locale={lang} catalog={items} fallbackSlug={pathItems[0]?.slug ?? items[0].slug} />}
+
+  {items.length > 0 && <div class="mt-6"><HomeGrid client:load locale={lang} items={items} categories={categories} /></div>}
+
+  {path && pathItems.length > 1 && (
+    <section class="mt-8">
+      <h2 class="mb-3 text-lg font-extrabold">{path.emoji} {t(lang, 'home.path')}</h2>
+      <a href={href(lang, 'path')} class="block rounded-2xl border border-line bg-surface p-4">
+        <p class="mb-3 font-bold">{path.title[lang]}</p>
+        <div class="flex items-center gap-2 overflow-x-auto" aria-hidden="true">
+          {pathItems.map((p, i) => <><span class="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-brand-soft text-2xl">{p!.emoji}</span>{i < pathItems.length - 1 && <span class="text-muted">›</span>}</>)}
+        </div>
+      </a>
+    </section>
+  )}
+
+  {arts.length > 0 && (
+    <section class="mt-8">
+      <div class="mb-3 flex items-center justify-between"><h2 class="text-lg font-extrabold">📰 {t(lang, 'home.articles')}</h2><a class="text-sm font-semibold text-brand" href={href(lang, 'articles')}>{t(lang, 'home.see_all')}</a></div>
+      <ul class="space-y-2">{arts.map((a) => <li><a class="block rounded-2xl border border-line bg-surface p-4 font-semibold" href={href(lang, 'articles', a.slug)}>{a.fm.title}</a></li>)}</ul>
+    </section>
+  )}
+</Layout>

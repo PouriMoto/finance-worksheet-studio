@@ -1,0 +1,29 @@
+# Economy v1. Initial values from design logic, NOT from measured data: tune them with real usage.
+# Rules enforced by `npm run validate` (see checkEconomy): no loop where playing unlocked parts pays for more unlocks.
+version: 1
+tokens:                       # paid currency (subscription grant, packs, coupons). Never earned by playing.
+  monthly_grant: 40           # about 4 four-part books or 13 single parts per month
+  rollover_cap: 20            # unused tokens carried to the next cycle
+  rental_days: 30             # a token unlock gives 30 days of access to that part
+  part_cost: { "1": 3, "2": 4, "3": 6 }   # by package tier
+  bundle_discount: 0.15       # unlocking all parts of a package at once
+  daily_unlock_cap: 6
+points:                       # earned currency (playing). Buys short access to premium parts only.
+  first_completion: 10        # only the first completion of each part; replays pay 0
+  perfect_bonus: 5            # all quizzes in the part correct
+  streak_bonus: { min_days: 3, bonus: 3 }
+  daily_cap: 40               # about 3 to 4 parts per day
+  min_seconds_per_part: 60    # anti-bot: a part cannot be finished faster
+  min_answered_ratio: 0.7
+  unlock_cost: 120            # a 7-day rental of a tier-1 premium part
+  tier_multiplier: { "1": 1, "2": 1.5, "3": 2 }
+  rental_days: 7
+  expire_days: 90             # unspent points expire
+  max_balance: 600
+ai:
+  summary_credits: 1          # one AI summary costs one credit (bought separately)
+  summaries_per_day: 5
+limits:
+  pdf_per_day: 5
+  otp_per_hour: 3             # per phone number
+  break_nudge_minutes: 60     # gentle "take a break" nudge, never a hard stop

@@ -1,0 +1,67 @@
+id: variable-reward
+emoji: 🎁
+minutes: 8
+scenes:
+- id: three-rewards
+  type: narrative
+  emoji: 🎁
+- id: which-reward
+  type: quiz
+  emoji: 🧩
+  options:
+  - id: tribe
+    correct: true
+  - id: hunt
+  - id: self
+- id: match-rewards
+  type: match
+  emoji: 🧩
+  pairs:
+  - p1
+  - p2
+  - p3
+- id: feedback-design
+  type: choice
+  emoji: 💬
+  options:
+  - id: a
+    dims:
+      ethical_design: 1
+      long_term_thinking: 0
+  - id: b
+    dims:
+      ethical_design: 2
+      long_term_thinking: 2
+  - id: c
+    dims:
+      ethical_design: 0
+      long_term_thinking: 0
+- id: keep-users
+  type: choice
+  emoji: 🧲
+  options:
+  - id: a
+    dims:
+      ethical_design: 0
+  - id: b
+    dims:
+      ethical_design: 2
+  - id: c
+    dims:
+      ethical_design: 0
+- id: social-compare
+  type: choice
+  emoji: 👥
+  options:
+  - id: a
+    dims:
+      ethical_design: 0
+  - id: b
+    dims:
+      ethical_design: 2
+  - id: c
+    dims:
+      ethical_design: 1
+- id: report
+  type: report
+  scope: part

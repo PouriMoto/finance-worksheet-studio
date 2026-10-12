@@ -1,0 +1,41 @@
+---
+import { renderMarkdown } from '../../../../lib/markdown';
+import Layout from '../../../../layouts/Layout.astro';
+import { EmojiTile, fmtDate, t } from '@hormat/engine';
+import { LOCALES, SITE } from '../../../../config';
+import { articles, catalog, content, findPackage, href } from '../../../../lib/content';
+
+export function getStaticPaths() {
+  return LOCALES.flatMap((lang) => articles(lang).map((a) => ({ params: { lang, slug: a.slug } })));
+}
+const { lang, slug } = Astro.params as { lang: string; slug: string };
+const a = articles(lang).find((x) => x.slug === slug)!;
+const html = renderMarkdown(a.body);
+const rel = a.fm.packages.map((s) => findPackage(lang, s)).filter(Boolean);
+const available = content().articles.filter((x) => x.slug === slug).map((x) => x.locale);
+const url = `${SITE}/${lang}/articles/${slug}/`;
+const jsonLd: object[] = [{
+  '@context': 'https://schema.org', '@type': 'Article', headline: a.fm.title, description: a.fm.description,
+  datePublished: a.fm.date, dateModified: a.fm.updated ?? a.fm.date, inLanguage: lang, mainEntityOfPage: url,
+}];
+if (a.fm.faq.length) jsonLd.push({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: a.fm.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) });
+---
+<Layout locale={lang} title={`${a.fm.title} | ${t(lang, 'app.name')}`} description={a.fm.description} path={`articles/${slug}/`} catalog={catalog(lang)} availableLocales={available} jsonLd={jsonLd}>
+  <article>
+    <h1 class="text-2xl font-extrabold leading-10">{a.fm.title}</h1>
+    <p class="mt-1 text-sm text-muted">{t(lang, 'article.updated')}: {fmtDate(lang, a.fm.updated ?? a.fm.date)}</p>
+    <div class="prose-article mt-5" set:html={html} />
+    {a.fm.faq.length > 0 && (
+      <section class="mt-8">
+        <h2 class="mb-3 text-lg font-extrabold">{t(lang, 'article.faq')}</h2>
+        <div class="space-y-2">{a.fm.faq.map((f) => <details class="rounded-2xl border border-line bg-surface p-4"><summary class="cursor-pointer font-bold">{f.q}</summary><p class="mt-2 leading-8">{f.a}</p></details>)}</div>
+      </section>
+    )}
+    {rel.length > 0 && (
+      <section class="mt-8">
+        <h2 class="mb-3 text-lg font-extrabold">{t(lang, 'article.related')}</h2>
+        {rel.map((r) => <a href={href(lang, 'p', r!.meta.slug)} class="flex items-center gap-3 rounded-2xl bg-brand p-4 text-brand-ink"><EmojiTile emoji={r!.meta.emoji} accent="teal" size="sm" /><span class="font-bold">{r!.title}</span></a>)}
+      </section>
+    )}
+  </article>
+</Layout>

@@ -1,0 +1,27 @@
+slug: runway-game
+type: game
+emoji: 🛟
+category: money
+featured: true
+access: free
+accent: amber
+locales:
+- fa
+- en
+tags:
+- emergency-fund
+- saving
+- risk
+level: beginner
+minutes: 8
+dims:
+- risk_awareness
+- long_term_thinking
+parts:
+- main
+next: hooked-book
+related:
+- investor-book
+gallery:
+- runway-game/shot-runway.svg
+- runway-game/shot-coin.svg

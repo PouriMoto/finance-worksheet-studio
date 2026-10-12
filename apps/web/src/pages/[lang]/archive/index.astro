@@ -1,0 +1,14 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { ArchiveFilter, t } from '@hormat/engine';
+import { LOCALES } from '../../../config';
+import { catalog, categoriesFor } from '../../../lib/content';
+export function getStaticPaths() { return LOCALES.map((lang) => ({ params: { lang } })); }
+const { lang } = Astro.params as { lang: string };
+const items = catalog(lang);
+const categories = categoriesFor(lang, items);
+---
+<Layout locale={lang} title={`${t(lang, 'archive.title')} | ${t(lang, 'app.name')}`} description={t(lang, 'home.tagline')} path="archive/" active="archive" catalog={items}>
+  <h1 class="mb-4 text-2xl font-extrabold">{t(lang, 'archive.title')}</h1>
+  <ArchiveFilter client:load locale={lang} items={items} categories={categories} />
+</Layout>

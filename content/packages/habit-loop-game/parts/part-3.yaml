@@ -1,0 +1,65 @@
+id: part-3
+emoji: 📖
+minutes: 6
+scenes:
+  - id: s9-examples
+    type: narrative
+  - id: s10-quiz1
+    type: quiz
+    options:
+      - id: o1
+        correct: true
+        dims:
+          concept_mastery: 2
+      - id: o2
+        dims:
+          concept_mastery: 0
+      - id: o3
+        dims:
+          concept_mastery: 0
+  - id: s10-quiz2
+    type: quiz
+    options:
+      - id: o1
+        dims:
+          concept_mastery: 0
+      - id: o2
+        dims:
+          concept_mastery: 0
+      - id: o3
+        correct: true
+        dims:
+          concept_mastery: 2
+  - id: s10-quiz3
+    type: quiz
+    options:
+      - id: o1
+        dims:
+          concept_mastery: 0
+      - id: o2
+        correct: true
+        dims:
+          concept_mastery: 2
+      - id: o3
+        dims:
+          concept_mastery: 0
+  - id: s10-quiz4
+    type: quiz
+    options:
+      - id: o1
+        correct: true
+        dims:
+          concept_mastery: 2
+      - id: o2
+        dims:
+          concept_mastery: 0
+      - id: o3
+        dims:
+          concept_mastery: 0
+  - id: s11-reflect
+    type: narrative
+  - id: s12-summary
+    type: narrative
+  - id: report
+    type: report
+    scope: package

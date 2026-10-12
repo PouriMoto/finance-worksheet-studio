@@ -1,0 +1,19 @@
+{
+  "name": "@hormat/engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./locales/*": "./src/locales/*"
+  },
+  "dependencies": {
+    "@hormat/content": "*",
+    "@nanostores/react": "^1.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "nanostores": "^1.0.0",
+    "tailwind-merge": "^3.0.0"
+  },
+  "peerDependencies": { "react": "^19.0.0", "react-dom": "^19.0.0" }
+}

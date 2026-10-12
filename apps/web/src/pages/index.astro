@@ -1,0 +1,17 @@
+---
+import { DEFAULT_LOCALE } from '../config';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=/${DEFAULT_LOCALE}/`} />
+    <link rel="canonical" href={`/${DEFAULT_LOCALE}/`} />
+    <title>Redirecting</title>
+    <script is:inline define:vars={{ DEFAULT_LOCALE }}>
+      var l = (navigator.language || '').slice(0, 2);
+      location.replace('/' + (l === 'en' ? 'en' : DEFAULT_LOCALE) + '/');
+    </script>
+  </head>
+  <body><a href={`/${DEFAULT_LOCALE}/`}>Continue</a></body>
+</html>
